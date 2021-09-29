@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GraPH {{token}}</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.5.1/dist/chart.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.plot.ly/plotly-2.4.2.min.js"></script>
+</head>
+
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-light bg-light">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/">CryptoTrack</a>
+        </div>
+    </nav>
+
+    <!-- Dropdown Selector -->
+    <div class="container-fluid my-1" id="crypto">
+        <div class="dropdown">
+            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
+                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Select Token
+            </button>
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                {% for item in tokens %}
+                <a class="dropdown-item" href={{item}}>{{item}}</a>
+                {% endfor %}
+
+            </div>
+        </div>
+    </div>
+
+    <div class="container-fluid">
+        <!-- Plot -->
+        <canvas id="lineChart" width="900" height="600"></canvas>
+    </div>
+
+    <script>
+        var ctx = document.getElementById("lineChart").getContext("2d");
+        // const labels = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul"];
+        // const data = [65, 59, 80, 81, 56, 55, 40]
+        const labels = {{ labels | safe}}
+        const data = {{ data | safe }}
+        const token = "Holding"
+        var lineChart = new Chart(ctx, {
+            type: "line",
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: token,
+                    data: data,
+                    fill: false,
+                    borderColor: "rgb(75, 75, 122)",
+                    lineTension: 0.1
+                }]
+            },
+            options: {
+                responsive: false
+            }
+        })
+
+
+        // var lineChart = new Chart(ctx, {
+        //     type: "line",
+        //     data: {
+        //         labels: {{ date | safe }}
+        //         datasets:[
+        //             {
+        //                 label: "Data points",
+        //                 data: {{ quantity | safe }},
+        //                 lineTension: 0.1
+        //             }
+        //         ]
+        //     },
+        //     options: {
+        //         responsive: False
+        //     }
+        // })
+    </script>
+
+</body>
+
+</html>
